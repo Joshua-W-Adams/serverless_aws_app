@@ -1,0 +1,12 @@
+service: serverless-aws-app
+
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: ap-southeast-2 # sydney
+
+functions:
+  hello:
+    handler: handler.hello
