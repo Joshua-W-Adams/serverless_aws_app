@@ -1,0 +1,30 @@
+{
+  "name": "serverless_aws_app",
+  "version": "1.0.0",
+  "main": "handler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "tsc && serverless deploy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Joshua-W-Adams/serverless_aws_app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Joshua-W-Adams/serverless_aws_app/issues"
+  },
+  "homepage": "https://github.com/Joshua-W-Adams/serverless_aws_app#readme",
+  "description": "",
+  "devDependencies": {
+    "@types/aws-sdk": "^2.7.0",
+    "@types/node": "^17.0.18",
+    "@types/uuid": "^8.3.4",
+    "ts-node": "^10.5.0",
+    "typescript": "^4.5.5"
+  },
+  "dependencies": {
+    "uuid": "^8.3.2"
+  }
+}
