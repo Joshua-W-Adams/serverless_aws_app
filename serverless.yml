@@ -4,9 +4,68 @@ frameworkVersion: "3"
 
 provider:
   name: aws
-  runtime: nodejs14.x
+  # Default region (default: us-east-1)
   region: ap-southeast-2 # sydney
+  # Default stage (default: dev)
+  # stage: dev
+  # Use a custom name for the CloudFormation stack
+  # stackName: custom-stack-name
+  # Default memory size for functions (default: 1024MB)
+  memorySize: 256
+  runtime: nodejs14.x
+  # Version of hashing algorithm used by Serverless Framework for function packaging
+  lambdaHashingVersion: "20201221"
+  # Duration for CloudWatch log retention (default: forever)
+  logRetentionInDays: 14
+  # Function environment variables
+  environment:
+    # To self-reference properties in serverless.yml, use the ${self:someProperty} syntax in your serverless.yml.
+    DYNAMODB_TABLE: ${self:service}-${sls:stage}
+  httpApi:
+    # Enable cors header for all http API end points
+    cors: true
+  # iam permissions for all functions deployed under this .yml file
+  # iam:
+  #   role:
+  #     statements:
+  #       - Effect: Allow
+  #         Action:
+  #           - dynamodb:Query
+  #           - dynamodb:Scan
+  #           - dynamodb:GetItem
+  #           - dynamodb:PutItem
+  #           - dynamodb:UpdateItem
+  #           - dynamodb:DeleteItem
+  #         Resource: "arn:aws:dynamodb:${aws:region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
 
 functions:
-  hello:
-    handler: handler.hello
+  api:
+    handler: functions/src/web_server/handler.handler
+    events:
+      - httpApi: "*"
+  # create:
+  #   handler: functions/src/database/create.create
+  #   events:
+  #     - httpApi:
+  #         path: /todos
+  #         method: post
+  # list:
+  #   handler: functions/src/database/list.list
+  #   events:
+  #     - httpApi:
+  #         path: /todos
+  #         method: get
+# resources:
+#   Resources:
+#     TodosDynamoDbTable:
+#       Type: "AWS::DynamoDB::Table"
+#       # DeletionPolicy: Retain
+#       Properties:
+#         AttributeDefinitions:
+#           - AttributeName: id
+#             AttributeType: S
+#         KeySchema:
+#           - AttributeName: id
+#             KeyType: HASH
+#         BillingMode: PAY_PER_REQUEST
+#         TableName: ${self:provider.environment.DYNAMODB_TABLE}
